@@ -13,3 +13,21 @@ Load the `unslop` skill before writing any text a person will read, and follow i
 ## Decisions
 
 Before changing a project's design, read its `docs/decisions/`. Decisions there are final. Don't change them or work around them. Report any conflict to me and wait.
+
+## Commits
+
+Follow Conventional Commits 1.0.0 for every commit.
+Use `<type>[optional scope][!]: <description>`.
+Use `feat` for features, `fix` for bug fixes, and appropriate
+repo types for other changes. Mark breaking changes with `!`
+or a `BREAKING CHANGE:` footer. Check the message before committing.
+Apply the same convention to PR titles used for squash merges.
+Use the identity configured in Git for new commits. Do not override it.
+Never add `Co-authored-by` trailers or other commit attribution for AI models or agents.
+
+## Pull requests
+
+Load and follow the `pr` skill whenever creating a PR or updating its description, including draft PRs.
+
+When authorized to merge a PR, use squash merging.
+Use a Conventional Commit message for the squash commit.
