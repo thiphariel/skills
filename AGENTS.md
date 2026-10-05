@@ -28,3 +28,6 @@ Never add `Co-authored-by` trailers or other commit attribution for AI models or
 ## Pull requests
 
 Load and follow the `pr` skill whenever creating a PR or updating its description, including draft PRs.
+
+When authorized to merge a PR, use squash merging.
+Use a Conventional Commit message for the squash commit.
