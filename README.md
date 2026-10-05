@@ -24,13 +24,22 @@ Files go to `~/.agents/skills/`, with a link in `~/.claude/skills/` for claude.
 
 ## Global instructions
 
-Link the file into your home so every agent reads it:
+Link the file into your home for agents that read `~/AGENTS.md`:
 
 ```sh
 ln -s ~/horizon/skills/AGENTS.md ~/AGENTS.md
 ```
 
 A `git pull` in this repo updates it.
+
+Codex reads global instructions from `~/.codex/AGENTS.md`. Link it there too, or add the pull request rule to an existing file:
+
+```sh
+mkdir -p ~/.codex
+ln -s ~/horizon/skills/AGENTS.md ~/.codex/AGENTS.md
+```
+
+For other agents, include this file from their global instructions. The `pr` skill needs both a global skill install and the instruction to load it on every PR. Automatic skill discovery alone does not require invocation.
 
 ## Update
 
