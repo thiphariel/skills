@@ -1,13 +1,13 @@
 ---
 name: pr
-description: Structure PR titles and bodies with concise, verified evidence. Use whenever creating a pull request or updating its description, including draft PRs.
+description: Write PR titles and bodies with clear groups, concise bullets, and verified evidence. Use whenever creating a pull request or updating its description, including draft PRs.
 ---
 
 # PR
 
 Read the repo's PR template, contribution instructions, and relevant decisions. Keep required fields; fit this convention into them. Without a template, use the format below.
 
-Inspect the full diff against the intended base. Describe the final change, not the work history. Follow the repo's title convention; otherwise use a short title naming the change.
+Inspect the full diff against the intended base. Describe the final change, not the work history. Use a Conventional Commit title, `<type>[optional scope][!]: <description>`, following the repo's allowed types and scopes. Name the concrete change; mark breaking changes when applicable.
 
 ## Evidence
 
@@ -21,14 +21,29 @@ Capture verbose command output to a temporary log and report its exit status and
 
 ## Body
 
-Aim for 100 to 200 words; trivial changes can be shorter. Exceed this only for required fields or material review details. Omit empty sections and boilerplate checklists.
+Lead with a short paragraph stating the problem or purpose and the resulting behavior. Then group the review details under descriptive headings, using concise bullets. Prefer this readable structure over packing several changes into a Summary paragraph.
+
+Choose headings from the actual change: `Decision`, `Behavior`, `Implementation`, `Doc changes`, `Migration`, or another concrete subject. Use separate groups when they answer different reviewer questions. For a decision PR, explain what was decided separately from which documents were updated. For code, explain the behavior and add implementation details only when they help assess the change. A trivial PR can use one short group plus checks. Omit empty sections and boilerplate checklists.
+
+Give each bullet one coherent point. Preserve constraints, timing, limits, and scope boundaries that matter to review. Combine closely related details; split unrelated changes. Use a short before/after example when it clarifies behavior. Link key decisions or documents when useful, rather than listing every changed file or repeating the diff.
+
+Keep the body as short as the change allows. Do not enforce a word target that removes useful groups or compresses important decisions into dense prose. Remove repetition and incidental details instead. Use plain bullets without bold labels or nested lists unless a hierarchy is necessary.
+
+Adapt this shape to the PR; the headings and bullet count are examples, not required fields:
 
 ```markdown
-## Summary
+<Problem or purpose and resulting behavior in one or two sentences.>
 
-<Problem and resulting behavior in one or two sentences.>
+## Behavior
 
-## Validation
+* <A concrete behavior change and its important constraint.>
+* <Another related change, with a short example if useful.>
+
+## Implementation
+
+* <A design choice or affected component that helps review.>
+
+## Checks
 
 * `<command>`: <observed result and behavior checked>.
 * <Manual scenario>: <observed result, if applicable>.
@@ -38,6 +53,29 @@ Aim for 100 to 200 words; trivial changes can be shorter. Exceed this only for r
 <Only material limitations, compatibility changes, migrations, or rollout needs. Omit otherwise.>
 ```
 
+For a documentation decision PR, separate the decisions from the document changes. For example:
+
+```markdown
+Records the decision to move scheduled reports to a background queue so report generation can be retried independently.
+
+## Decision
+
+* Queue each scheduled report instead of generating it during the request.
+* Retry temporary failures up to three times; show a failed status after the final attempt.
+* Build behind a feature flag before enabling the queue for all scheduled reports.
+
+## Doc changes
+
+* Add the queue decision and its rollout criteria to the decision document.
+* Update the architecture guide to describe the planned worker and retry behavior.
+
+## Checks
+
+* <Documentation check command>: <observed result>.
+```
+
+Distinguish decisions and planned work from delivered behavior. A documentation PR records a change; it does not implement that change. Examples illustrate the structure, not reusable claims or check results. Use fictional examples in reusable guidance; do not copy private project names, paths, or decisions into another repository.
+
 State validation gaps plainly. Match evidence to the scope actually tested; a successful build alone does not prove runtime behavior.
 
-Before submitting, check the title and body against the final diff. Preserve intentional newlines with a structured body argument or `gh --body-file`. After submission, report the PR link and any unresolved blocker briefly.
+Before submitting, check the title and body against the final diff. Ensure the opening explains the purpose, headings form useful groups, bullets retain material details, and checks contain observed results. When editing an existing PR, preserve useful groups and specifics unless they are stale; rewrite around the final scope when it changes. Preserve intentional newlines with a structured body argument or `gh --body-file`. After submission, report the PR link and any unresolved blocker briefly.
