@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Remove what agents left behind for pull requests that are merged: the local branch, its worktree and its
+# scratch folder (agent-work/<repo>/<branch> in /tmp). A branch is kept when its worktree has changes, when it
+# holds commits the merged PR does not contain, or when an open PR still uses it.
+# Usage: clean-merged [--dry-run] [repo dir]
+set -euo pipefail
+
+dry=0
+if [ "${1:-}" = "--dry-run" ]; then dry=1; shift; fi
+cd "${1:-.}"
+
+top=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
+repo=$(basename "$top")
+scratch="${AGENT_SCRATCH:-/tmp/agent-work}/$repo"
+current=$(git branch --show-current)
+
+act() {
+  echo "$*"
+  if [ "$dry" = 0 ]; then "$@"; fi
+}
+
+git fetch -q --prune origin
+
+declare -A worktree
+path=""
+while read -r key val; do
+  case "$key" in
+    worktree) path=$val ;;
+    branch) worktree[${val#refs/heads/}]=$path ;;
+  esac
+done < <(git worktree list --porcelain)
+
+declare -A merged_pr merged_head open
+while IFS=$'\t' read -r name number head; do
+  # gh lists the newest PR first; keep that one when a branch name was reused.
+  if [ -z "${merged_pr[$name]:-}" ]; then merged_pr[$name]=$number; merged_head[$name]=$head; fi
+done < <(gh pr list --state merged --limit 500 --json headRefName,number,headRefOid --jq '.[] | [.headRefName, .number, .headRefOid] | @tsv')
+while read -r name; do open[$name]=1; done < <(gh pr list --state open --limit 500 --json headRefName --jq '.[].headRefName')
+
+for b in $(git for-each-ref --format='%(refname:short)' refs/heads); do
+  pr=${merged_pr[$b]:-}
+  if [ -z "$pr" ] || [ -n "${open[$b]:-}" ] || [ "$b" = "$current" ]; then continue; fi
+  head=${merged_head[$b]}
+  git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "pull/$pr/head" || true
+  if ! git merge-base --is-ancestor "$b" "$head" 2>/dev/null; then
+    echo "keep $b: commits not in #$pr"
+    continue
+  fi
+  wt=${worktree[$b]:-}
+  if [ -n "$wt" ]; then
+    if [ "$wt" = "$top" ]; then echo "keep $b: checked out in $top"; continue; fi
+    if [ -n "$(git -C "$wt" status --porcelain)" ]; then echo "keep $b: $wt has changes"; continue; fi
+    act git worktree remove "$wt"
+  fi
+  act git branch -D -q "$b"
+  dir="$scratch/${b//\//-}"
+  if [ -e "$dir" ]; then act rm -rf "$dir"; fi
+done
+act git worktree prune

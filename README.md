@@ -41,6 +41,16 @@ ln -s ~/horizon/skills/AGENTS.md ~/.codex/AGENTS.md
 
 For other agents, include this file from their global instructions. The `pr` skill needs both a global skill install and the instruction to load it on every PR. Automatic skill discovery alone does not require invocation.
 
+## Cleanup script
+
+`bin/clean-merged` removes the local branches, worktrees and scratch folders of merged pull requests. `AGENTS.md` tells agents to run it. Put it on your `PATH`:
+
+```sh
+ln -s ~/horizon/skills/bin/clean-merged ~/.local/bin/clean-merged
+```
+
+It needs `git` and an authenticated `gh`.
+
 ## Update
 
 After pushing to this repo:

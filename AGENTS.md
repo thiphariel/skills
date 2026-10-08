@@ -31,3 +31,11 @@ Load and follow the `pr` skill whenever creating a PR or updating its descriptio
 
 When authorized to merge a PR, use squash merging.
 Use a Conventional Commit message for the squash commit.
+
+## Scratch files
+
+Put temporary files (logs, PR bodies, test scripts) in `$CLAUDE_JOB_DIR/tmp` when it is set. Otherwise use `/tmp/agent-work/<repo>/<branch>`, with `/` in the branch name replaced by `-`. Never write fixed names straight into `/tmp`: agents running in parallel overwrite each other's files there.
+
+## Cleanup after merge
+
+Run `clean-merged` in the repository at the start of a task and after merging a PR. For every merged PR it removes the local branch, its worktree and its folder in `/tmp/agent-work`. It keeps a branch whose worktree has changes, whose commits are not all in the merged PR, or that an open PR still uses. Use `clean-merged --dry-run` to see what it would remove.
