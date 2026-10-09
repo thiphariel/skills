@@ -27,7 +27,8 @@ Required when the PR changes what a screen shows. Skip them for changes with no 
 
 * Capture the changed screen after the change with the `agent-browser` skill. For a visible bug, also capture it before the fix. Add a phone-size capture when the layout changes.
 * Use a local dev server with fake data. Never capture a deployed app or real accounts: the images are readable by anyone who can read the repo.
-* Push the images to their own branch, `screenshots/<pr branch>`, never to the PR branch. From the repo, with `<b>` the PR branch and `<dir>` a new scratch folder:
+* If your environment's instructions say how to attach screenshots, for example a folder where you save them and a link format, follow those and skip the steps below. Not being allowed to push is never a reason to skip screenshots in that case.
+* Otherwise, push the images to their own branch, `screenshots/<pr branch>`, never to the PR branch. From the repo, with `<b>` the PR branch and `<dir>` a new scratch folder:
 
   ```
   git worktree add --orphan -b screenshots/<b> <dir>
@@ -40,7 +41,7 @@ Required when the PR changes what a screen shows. Skip them for changes with no 
 
 * Embed them under Checks with the printed commit: `![after](https://github.com/<owner>/<repo>/blob/<commit>/after.png?raw=true)`.
 * `clean-merged` deletes the screenshots branch once the PR is merged or closed. The images in the PR break after that.
-* If you cannot run a browser or push, say so in Checks instead.
+* Only when no browser runs, or neither way of attaching works, say so in Checks with the reason.
 
 ## Body
 
