@@ -17,9 +17,30 @@ Run checks that exercise the changed behavior, plus checks required by the repo.
 
 Report the command or manual scenario, observed result, and what it verifies. Keep each check to one line. Include counts only when observed. Distinguish passing, failing, skipped, and not run; give a short reason for gaps. Never infer a pass from launching a command, reading code, or adding a test.
 
-For a bug fix, prefer a regression test that fails before and passes after when practical. For UI changes, include a screenshot or recording when it helps demonstrate the behavior, with a reviewer-accessible link. Link existing CI runs or artifacts when useful. Do not claim CI passed before checking its result for the submitted commit.
+For a bug fix, prefer a regression test that fails before and passes after when practical. For UI changes, add screenshots (see below). Link existing CI runs or artifacts when useful. Do not claim CI passed before checking its result for the submitted commit.
 
 Capture verbose command output to a temporary log and report its exit status and concise summary. Inspect failures using targeted excerpts. Never paste full npm output, build logs, stack traces, or successful command transcripts into the PR or chat. Include only the shortest diagnostic needed to explain a failure. Do not add tests solely to fill the evidence section.
+
+## Screenshots
+
+Required when the PR changes what a screen shows. Skip them for changes with no visible effect.
+
+* Capture the changed screen after the change with the `agent-browser` skill. For a visible bug, also capture it before the fix. Add a phone-size capture when the layout changes.
+* Use a local dev server with fake data. Never capture a deployed app or real accounts: the images are readable by anyone who can read the repo.
+* Push the images to their own branch, `screenshots/<pr branch>`, never to the PR branch. From the repo, with `<b>` the PR branch and `<dir>` a new scratch folder:
+
+  ```
+  git worktree add --orphan -b screenshots/<b> <dir>
+  cp before.png after.png <dir>/
+  git -C <dir> add . && git -C <dir> commit -m "chore: screenshots for <b>"
+  git -C <dir> push -u origin screenshots/<b>
+  git -C <dir> rev-parse HEAD
+  git worktree remove <dir> && git branch -D screenshots/<b>
+  ```
+
+* Embed them under Checks with the printed commit: `![after](https://github.com/<owner>/<repo>/blob/<commit>/after.png?raw=true)`.
+* `clean-merged` deletes the screenshots branch once the PR is merged or closed. The images in the PR break after that.
+* If you cannot run a browser or push, say so in Checks instead.
 
 ## Body
 

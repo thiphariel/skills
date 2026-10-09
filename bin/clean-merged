@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Remove what agents left behind for pull requests that are merged: the local branch, its worktree and its
 # scratch folder (agent-work/<repo>/<branch> in /tmp). A branch is kept when its worktree has changes, when it
-# holds commits the merged PR does not contain, or when an open PR still uses it.
+# holds commits the merged PR does not contain, or when an open PR still uses it. Also deletes the PR's
+# screenshots/<branch> on origin once the PR is merged or closed.
 # Usage: clean-merged [--dry-run] [repo dir]
 set -euo pipefail
 
@@ -57,3 +58,11 @@ for b in $(git for-each-ref --format='%(refname:short)' refs/heads); do
   if [ -e "$dir" ]; then act rm -rf "$dir"; fi
 done
 act git worktree prune
+
+# PR screenshots live on origin as screenshots/<pr branch>. Delete them once that PR is merged or closed.
+declare -A closed
+while read -r name; do closed[$name]=1; done < <(gh pr list --state closed --limit 500 --json headRefName --jq '.[].headRefName')
+for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/screenshots/); do
+  b=${ref#origin/screenshots/}
+  if [ -n "${closed[$b]:-}" ] && [ -z "${open[$b]:-}" ]; then act git push -q origin --delete "screenshots/$b"; fi
+done

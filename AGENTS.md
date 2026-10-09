@@ -25,7 +25,7 @@ Load the `unslop` skill before writing any text a person will read, and follow i
 
 ## Cleanup after merge
 
-Run `clean-merged` in the repository at the start of a task and after merging a PR. For every merged PR it removes the local branch, its worktree and its folder in `/tmp/agent-work`. It keeps a branch whose worktree has changes, whose commits are not all in the merged PR, or that an open PR still uses. Use `clean-merged --dry-run` to see what it would remove.
+Run `clean-merged` in the repository at the start of a task and after merging a PR. For every merged PR it removes the local branch, its worktree and its folder in `/tmp/agent-work`, and deletes the PR's `screenshots/<branch>` on GitHub once the PR is merged or closed. It keeps a branch whose worktree has changes, whose commits are not all in the merged PR, or that an open PR still uses. Use `clean-merged --dry-run` to see what it would remove.
 
 ## Decisions
 
