@@ -49,7 +49,7 @@ For other agents, include this file from their global instructions. The `pr` ski
 
 ## Cleanup script
 
-`bin/clean-merged` removes the local branches, worktrees and scratch folders of merged pull requests. `AGENTS.md` tells agents to run it. Put it on your `PATH`:
+`bin/clean-merged` removes the local branches, worktrees and scratch folders of merged pull requests, and the screenshot branches of merged or closed ones. `AGENTS.md` tells agents to run it. Put it on your `PATH`:
 
 ```sh
 ln -s ~/horizon/skills/bin/clean-merged ~/.local/bin/clean-merged
