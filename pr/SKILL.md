@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Write PR titles and bodies with clear groups, concise bullets, and verified evidence. Use whenever creating a pull request or updating its description, including draft PRs.
+description: Tells how to Write PR titles and bodies with clear groups, concise bullets, and verified evidence. Use whenever creating a pull request or updating its description.
 ---
 
 # PR
@@ -8,6 +8,8 @@ description: Write PR titles and bodies with clear groups, concise bullets, and 
 Read the repo's PR template, contribution instructions, and relevant decisions. Keep required fields; fit this convention into them. Without a template, use the format below.
 
 Inspect the full diff against the intended base. Describe the final change, not the work history. Use a Conventional Commit title, `<type>[optional scope][!]: <description>`, following the repo's allowed types and scopes. Name the concrete change; mark breaking changes when applicable.
+
+**Open a real PR, not a draft!** Drafts do not get review coverage.
 
 ## Evidence
 

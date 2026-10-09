@@ -11,7 +11,7 @@ cd "${1:-.}"
 
 top=$(cd "$(git rev-parse --git-common-dir)/.." && pwd)
 repo=$(basename "$top")
-scratch="${AGENT_SCRATCH:-/tmp/agent-work}/$repo"
+scratch="/tmp/agent-work/$repo"
 current=$(git branch --show-current)
 
 act() {
