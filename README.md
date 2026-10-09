@@ -32,12 +32,18 @@ ln -s ~/horizon/skills/AGENTS.md ~/AGENTS.md
 
 A `git pull` in this repo updates it.
 
-Codex reads global instructions from `~/.codex/AGENTS.md`. Link it there too, or add the pull request rule to an existing file:
+### Codex
+
+Codex reads global instructions from `~/.codex/AGENTS.md`, not `~/AGENTS.md`. Link the file there too:
 
 ```sh
 mkdir -p ~/.codex
 ln -s ~/horizon/skills/AGENTS.md ~/.codex/AGENTS.md
 ```
+
+If `~/.codex/AGENTS.md` already exists, `ln` fails. Move it aside or merge its content into this file first. To check, start Codex and ask it to list the instructions it loaded.
+
+### Other agents
 
 For other agents, include this file from their global instructions. The `pr` skill needs both a global skill install and the instruction to load it on every PR. Automatic skill discovery alone does not require invocation.
 
