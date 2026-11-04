@@ -29,7 +29,7 @@ Run `clean-merged` in the repository at the start of a task and after merging a 
 
 ## Decisions
 
-Before changing a project's design, read its `docs/decisions/`. Decisions there are final. Don't change them or work around them. Report any conflict to me and wait.
+Each project keeps one file per subject in `docs/decisions/`. Before changing a project's design, list the folder and read only the subjects your change touches. Record a new decision in its subject's file, rewriting the rule in place, as `ask-me-with-docs` describes. Decisions there are final. Don't change them or work around them. Report any conflict to me and wait.
 
 ## Coding preferences
 
