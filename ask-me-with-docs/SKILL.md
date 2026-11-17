@@ -37,10 +37,10 @@ Updated: <date>
 
 ## Next
 
-<What happens next. The next round to ask, facts a sub agent is looking up, or the work to start once the user confirms.>
+<What happens next. The next round to ask, facts still being looked up, or the work to start once the user confirms.>
 ```
 
-Record decisions, not the conversation. Keep only the current rule. When the user changes their mind, or a later decision changes an earlier one, rewrite it in place. Don't add amendment notes, "was X" history or a replacing file, because git keeps the history. Keep a fact found by a sub agent only when it shaped a decision.
+Record decisions, not the conversation. Keep only the current rule. When the user changes their mind, or a later decision changes an earlier one, rewrite it in place. Don't add amendment notes, "was X" history or a replacing file, because git keeps the history. Keep a looked-up fact only when it shaped a decision.
 
 ## At the end
 

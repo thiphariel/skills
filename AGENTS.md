@@ -16,7 +16,7 @@ Never run destructive or dangerous commands outside your worktree / branch or bo
 ## Reporting
 
 - Keep every reply short. Lead with the answer or the result, then stop.
-- Report outcomes, decisions, and what I need to do. Don't narrate each step, restate my request, or recap at the end.
+- Report outcomes, decisions, and what I need to do. In the final reply, don't narrate each step, restate my request, or recap at the end. During long work, a one-line status now and then is fine.
 - Be extremely concise. Sacrifice grammar for the sake of concision. Only write longer, fuller text when I explicitly ask for detail.
 
 ## Writing
@@ -38,7 +38,7 @@ Each project keeps one file per subject in `docs/decisions/`. Before changing a 
 - Don't be scared to propose bold ideas if they can benefit our work.
 - Tests are good! Endless smoke tests, "regression tests" for feature deletions, etc, much less good. Tests should be focused, not slop.
 - Comments are a great way to clarify functionality and how code is used. Don't comment every line, but feel free to concisely describe how functions are used above their definitions, classes, etc.
-- Keep comments up to date! When making changes, it's very important to keep things in sync.
+- When you change code, update the comments that describe it, so they never contradict it.
 
 ## Match ceremony to the task
 
