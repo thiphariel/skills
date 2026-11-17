@@ -30,7 +30,7 @@ Stop after the round and wait for the answers.
 
 ## Facts and decisions
 
-Facts are your job. If a question depends on something you can check, such as code, files, config, or docs, look it up with a sub agent instead of asking. While it runs, ask the questions that don't depend on it.
+Facts are your job. If a question depends on something you can check, such as code, files, config, or docs, look it up instead of asking. Use a sub agent only for a broad search, and while it runs, ask the questions that don't depend on it.
 
 Decisions are the user's. Give your recommendation, then let them choose.
 
